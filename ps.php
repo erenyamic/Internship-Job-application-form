@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Kullanıcı Adı ve Şifre Formu</title>
+	<title>REEDER STAJ-İŞ BAŞVURU FORUMU</title>
+	<link rel="icon" type="image/x-icon" href="/icon/favicon.ico">
 </head>
 <body>
 

@@ -35,6 +35,22 @@ else if(isset($_POST["reddetBtn"])){
             
     }
     
+}else if(isset($_POST["bekleBtn"])){
+    session_start();
+    if($_POST["bul"]!=null){
+        $db=new mysqli("localhost","root","","basvurular");
+        if($db->connect_error){
+            die('Error'.(".$db->connect_errno.").$db->connect_error);
+         }else{
+            $sorgu3=$db->query("SET NAMES UTF8");
+            $ony=$_POST["bul"];
+            $sorgu=$db->query("update basvurular set onay='Beklemede' where adSoyad='$ony'");
+
+         }
+        
+            
+    }
+    
 }
 else if(isset($_POST["grs"])){
     if($_POST["username"]=="reeder"&&$_POST["password"]=='$Reeder$'){
@@ -63,9 +79,10 @@ else{
        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
        <meta name="description" content="" />
        <meta name="author" content="" />
-       <title>OMÜ Danışmanına Sor Admin Paneli</title>
+       <title>REEDER STAJ-İŞ BAŞVURU FORUMU</title>
        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
        <link href="css/styles.css" rel="stylesheet" />
+       <link rel="icon" type="image/x-icon" href="/icon/favicon.ico">
        <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
        <style>
         .search-bar {
@@ -96,13 +113,17 @@ else{
         .search-button:hover {
             background-color: #45a049;
         }
+        .sondiv:hover{
+            cursor: pointer;
+            
+        }
     </style>
 
     </head>
    <body class="sb-nav-fixed">
        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-           <!-- Navbar Brand-->
-           <a class="navbar-brand ps-3" href="admin.php">Reeder Başvuru</a>
+           <!-- Navbar Brand--><img src="/icon/favicon-96x96.png" style="width:3%;height:auto;margin:0 0 0 10px;">
+           <a class="navbar-brand ps-3" href="" style='color:chartreuse;'>REEDER BAŞVURU</a>
            <!-- Sidebar Toggle-->
            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
            <!-- Navbar Search-->
@@ -186,6 +207,7 @@ else{
                        </div>
                    </div>
                    <div class="sb-sidenav-footer">
+                    
                        <div class="small">Panel:</div>
                        Admin
                    </div>
@@ -220,7 +242,7 @@ else{
                            <div class="card-body">
                                <table id="datatablesSimple">
                                <thead>
-                                       <tr>
+                                       <tr><th>*</th>
                                        <th>Ad Soyad:</th>
 <th>Adres:</th>
 <th>GSM:</th>
@@ -380,7 +402,7 @@ else{
                          if($onay=="Onaylandı"){
                              echo "
                              <tr style='background-color:#7CFC00';>
-                                 
+                             <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
                                  <td>$adSoyad</td>
                                  <td>$adres</td>
                                  <td>$gsm</td>
@@ -422,7 +444,7 @@ else{
          <td>$stajBaslama</td>
          <td>$stajBitis</td>
          <td>$onay</td>
-         <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'></form></td>
+         <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
          
                              </tr>
                            
@@ -431,7 +453,8 @@ else{
                          }else if($onay=="Reddedildi"){
                              echo "
                              <tr style='background-color:red';>
-                                 
+                             <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+
                                  <td>$adSoyad</td>
                                  <td>$adres</td>
                                  <td>$gsm</td>
@@ -473,16 +496,69 @@ else{
          <td>$stajBaslama</td>
          <td>$stajBitis</td>
          <td>$onay</td>
-         <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'></form></td>
+         <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
          
                              </tr>
                            
                                  
                        ";
-                         }else{
+                         }else if($onay=="Beklemede"){
+                            echo "
+                            <tr style='background-color:white';>
+                            <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+
+                                <td>$adSoyad</td>
+                                <td>$adres</td>
+                                <td>$gsm</td>
+                                <td>$dogum</td>
+                                <td>$dogumYeri</td>
+                                <td>$ehliyet</td>
+                                <td>$uyrug</td>
+                                <td>$tckimlik</td>
+                                <td></td>
+                                <td>$okul</td>
+                                <td>$bolum</td>
+                                <td>$baslama1 - $bitis1</td>
+                                <td>$ort1</td>
+                                <td>$okul2</td>
+                                <td>$bolum2</td>
+                                <td>$baslama2 - $bitis2</td>
+                                <td>$ort2</td>
+                                <td>$okul3</td>
+                                <td>$bolum3</td>
+                                <td>$baslama3 - $bitis3</td>
+                                <td>$ort3</td>
+                                <td>$okul4</td>
+                                <td>$bolum4</td>
+                                <td>$baslama4 - $bitis4</td>
+                                <td>$ort4</td>
+                                <td>$dil</td>
+                                <td>$word1</td>
+        <td>$excel1</td>
+        <td>$powerpoint1</td>
+        <td>$access1</td>
+        <td>$digerYetenekler</td>
+        <td>$digerAdSoyad</td>
+        <td>$referansFirma</td>
+        <td>$pozisyon1</td>
+        <td>$basvurulanBolum1</td>
+        <td>$isTecrubeleri1</td>
+        <td>$ilham1</td>
+        <td>$takim1</td>
+        <td>$stajBaslama</td>
+        <td>$stajBitis</td>
+        <td>$onay</td>
+        <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
+        
+                            </tr>
+                          
+                                
+                      ";
+                        }else{
                              echo "
                              <tr>
-                                 
+                             <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+
                                  <td>$adSoyad</td>
                                  <td>$adres</td>
                                  <td>$gsm</td>
@@ -524,7 +600,7 @@ else{
          <td>$stajBaslama</td>
          <td>$stajBitis</td>
          <td>$onay</td>
-         <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'></form></td>
+         <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
          
                              </tr>
                            
@@ -545,7 +621,7 @@ else{
 
             }
              else if(isset($_POST["tum"])){
-                $sorgu4=$db->query("select * from basvurular");
+                $sorgu4=$db->query("select * from basvurular order by basvuru_tarihi desc");
              
                 if($sorgu4->num_rows>0){
                     while($row=$sorgu4->fetch_assoc()){
@@ -597,7 +673,8 @@ else{
                      if($onay=="Onaylandı"){
                          echo "
                          <tr style='background-color:#7CFC00';>
-                             
+                         <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+                                
                              <td>$adSoyad</td>
                              <td>$adres</td>
                              <td>$gsm</td>
@@ -639,7 +716,7 @@ else{
      <td>$stajBaslama</td>
      <td>$stajBitis</td>
      <td>$onay</td>
-     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'></form></td>
+     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
      
                          </tr>
                        
@@ -648,7 +725,8 @@ else{
                      }else if($onay=="Reddedildi"){
                          echo "
                          <tr style='background-color:red';>
-                             
+                         <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+
                              <td>$adSoyad</td>
                              <td>$adres</td>
                              <td>$gsm</td>
@@ -690,16 +768,69 @@ else{
      <td>$stajBaslama</td>
      <td>$stajBitis</td>
      <td>$onay</td>
-     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'></form></td>
+     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
      
                          </tr>
                        
                              
                    ";
-                     }else{
+                     }else if($onay=="Beklemede"){
+                        echo "
+                        <tr style='background-color:white';>
+                        <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+
+                            <td>$adSoyad</td>
+                            <td>$adres</td>
+                            <td>$gsm</td>
+                            <td>$dogum</td>
+                            <td>$dogumYeri</td>
+                            <td>$ehliyet</td>
+                            <td>$uyrug</td>
+                            <td>$tckimlik</td>
+                            <td></td>
+                            <td>$okul</td>
+                            <td>$bolum</td>
+                            <td>$baslama1 - $bitis1</td>
+                            <td>$ort1</td>
+                            <td>$okul2</td>
+                            <td>$bolum2</td>
+                            <td>$baslama2 - $bitis2</td>
+                            <td>$ort2</td>
+                            <td>$okul3</td>
+                            <td>$bolum3</td>
+                            <td>$baslama3 - $bitis3</td>
+                            <td>$ort3</td>
+                            <td>$okul4</td>
+                            <td>$bolum4</td>
+                            <td>$baslama4 - $bitis4</td>
+                            <td>$ort4</td>
+                            <td>$dil</td>
+                            <td>$word1</td>
+    <td>$excel1</td>
+    <td>$powerpoint1</td>
+    <td>$access1</td>
+    <td>$digerYetenekler</td>
+    <td>$digerAdSoyad</td>
+    <td>$referansFirma</td>
+    <td>$pozisyon1</td>
+    <td>$basvurulanBolum1</td>
+    <td>$isTecrubeleri1</td>
+    <td>$ilham1</td>
+    <td>$takim1</td>
+    <td>$stajBaslama</td>
+    <td>$stajBitis</td>
+    <td>$onay</td>
+    <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
+    
+                        </tr>
+                      
+                            
+                  ";
+                    }else{
                          echo "
                          <tr>
-                             
+                         <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+
                              <td>$adSoyad</td>
                              <td>$adres</td>
                              <td>$gsm</td>
@@ -741,7 +872,7 @@ else{
      <td>$stajBaslama</td>
      <td>$stajBitis</td>
      <td>$onay</td>
-     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'></form></td>
+     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
      
                          </tr>
                        
@@ -760,7 +891,7 @@ else{
                 }
               }
               else if(isset($_POST["onaylananBasvurular"])){
-                $sorgu4=$db->query("select * from basvurular where onay='Onaylandı'");
+                $sorgu4=$db->query("select * from basvurular where onay='Onaylandı' order by basvuru_tarihi desc");
              
                 if($sorgu4->num_rows>0){
                     while($row=$sorgu4->fetch_assoc()){
@@ -812,7 +943,8 @@ else{
                      if($onay=="Onaylandı"){
                          echo "
                          <tr style='background-color:#7CFC00';>
-                             
+                         <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+
                              <td>$adSoyad</td>
                              <td>$adres</td>
                              <td>$gsm</td>
@@ -854,7 +986,7 @@ else{
      <td>$stajBaslama</td>
      <td>$stajBitis</td>
      <td>$onay</td>
-     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'></form></td>
+     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
      
                          </tr>
                        
@@ -863,7 +995,8 @@ else{
                      }else if($onay=="Reddedildi"){
                          echo "
                          <tr style='background-color:red';>
-                             
+                         <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+
                              <td>$adSoyad</td>
                              <td>$adres</td>
                              <td>$gsm</td>
@@ -905,16 +1038,69 @@ else{
      <td>$stajBaslama</td>
      <td>$stajBitis</td>
      <td>$onay</td>
-     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'></form></td>
+     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
      
                          </tr>
                        
                              
                    ";
-                     }else{
+                     }else if($onay=="Beklemede"){
+                        echo "
+                        <tr style='background-color:white';>
+                        <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+
+                            <td>$adSoyad</td>
+                            <td>$adres</td>
+                            <td>$gsm</td>
+                            <td>$dogum</td>
+                            <td>$dogumYeri</td>
+                            <td>$ehliyet</td>
+                            <td>$uyrug</td>
+                            <td>$tckimlik</td>
+                            <td></td>
+                            <td>$okul</td>
+                            <td>$bolum</td>
+                            <td>$baslama1 - $bitis1</td>
+                            <td>$ort1</td>
+                            <td>$okul2</td>
+                            <td>$bolum2</td>
+                            <td>$baslama2 - $bitis2</td>
+                            <td>$ort2</td>
+                            <td>$okul3</td>
+                            <td>$bolum3</td>
+                            <td>$baslama3 - $bitis3</td>
+                            <td>$ort3</td>
+                            <td>$okul4</td>
+                            <td>$bolum4</td>
+                            <td>$baslama4 - $bitis4</td>
+                            <td>$ort4</td>
+                            <td>$dil</td>
+                            <td>$word1</td>
+    <td>$excel1</td>
+    <td>$powerpoint1</td>
+    <td>$access1</td>
+    <td>$digerYetenekler</td>
+    <td>$digerAdSoyad</td>
+    <td>$referansFirma</td>
+    <td>$pozisyon1</td>
+    <td>$basvurulanBolum1</td>
+    <td>$isTecrubeleri1</td>
+    <td>$ilham1</td>
+    <td>$takim1</td>
+    <td>$stajBaslama</td>
+    <td>$stajBitis</td>
+    <td>$onay</td>
+    <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
+    
+                        </tr>
+                      
+                            
+                  ";
+                    }else{
                          echo "
                          <tr>
-                             
+                         <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+
                              <td>$adSoyad</td>
                              <td>$adres</td>
                              <td>$gsm</td>
@@ -956,7 +1142,7 @@ else{
      <td>$stajBaslama</td>
      <td>$stajBitis</td>
      <td>$onay</td>
-     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'></form></td>
+     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
      
                          </tr>
                        
@@ -974,7 +1160,7 @@ else{
                    
                 }
                }else if(isset($_POST["reddedilenBasvurular"])){
-                $sorgu4=$db->query("select * from basvurular where onay='Reddedildi'");
+                $sorgu4=$db->query("select * from basvurular where onay='Reddedildi' order by basvuru_tarihi desc");
              
                 if($sorgu4->num_rows>0){
                     while($row=$sorgu4->fetch_assoc()){
@@ -1026,7 +1212,8 @@ else{
                      if($onay=="Onaylandı"){
                          echo "
                          <tr style='background-color:#7CFC00';>
-                             
+                         <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+
                              <td>$adSoyad</td>
                              <td>$adres</td>
                              <td>$gsm</td>
@@ -1068,7 +1255,7 @@ else{
      <td>$stajBaslama</td>
      <td>$stajBitis</td>
      <td>$onay</td>
-     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'></form></td>
+     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
      
                          </tr>
                        
@@ -1077,7 +1264,8 @@ else{
                      }else if($onay=="Reddedildi"){
                          echo "
                          <tr style='background-color:red';>
-                             
+                         <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+
                              <td>$adSoyad</td>
                              <td>$adres</td>
                              <td>$gsm</td>
@@ -1119,16 +1307,69 @@ else{
      <td>$stajBaslama</td>
      <td>$stajBitis</td>
      <td>$onay</td>
-     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'></form></td>
+     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
      
                          </tr>
                        
                              
                    ";
-                     }else{
+                     }else if($onay=="Beklemede"){
+                        echo "
+                        <tr style='background-color:white';>
+                        <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+
+                            <td>$adSoyad</td>
+                            <td>$adres</td>
+                            <td>$gsm</td>
+                            <td>$dogum</td>
+                            <td>$dogumYeri</td>
+                            <td>$ehliyet</td>
+                            <td>$uyrug</td>
+                            <td>$tckimlik</td>
+                            <td></td>
+                            <td>$okul</td>
+                            <td>$bolum</td>
+                            <td>$baslama1 - $bitis1</td>
+                            <td>$ort1</td>
+                            <td>$okul2</td>
+                            <td>$bolum2</td>
+                            <td>$baslama2 - $bitis2</td>
+                            <td>$ort2</td>
+                            <td>$okul3</td>
+                            <td>$bolum3</td>
+                            <td>$baslama3 - $bitis3</td>
+                            <td>$ort3</td>
+                            <td>$okul4</td>
+                            <td>$bolum4</td>
+                            <td>$baslama4 - $bitis4</td>
+                            <td>$ort4</td>
+                            <td>$dil</td>
+                            <td>$word1</td>
+    <td>$excel1</td>
+    <td>$powerpoint1</td>
+    <td>$access1</td>
+    <td>$digerYetenekler</td>
+    <td>$digerAdSoyad</td>
+    <td>$referansFirma</td>
+    <td>$pozisyon1</td>
+    <td>$basvurulanBolum1</td>
+    <td>$isTecrubeleri1</td>
+    <td>$ilham1</td>
+    <td>$takim1</td>
+    <td>$stajBaslama</td>
+    <td>$stajBitis</td>
+    <td>$onay</td>
+    <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
+    
+                        </tr>
+                      
+                            
+                  ";
+                    }else{
                          echo "
                          <tr>
-                             
+                         <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+
                              <td>$adSoyad</td>
                              <td>$adres</td>
                              <td>$gsm</td>
@@ -1170,7 +1411,7 @@ else{
      <td>$stajBaslama</td>
      <td>$stajBitis</td>
      <td>$onay</td>
-     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'></form></td>
+     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
      
                          </tr>
                        
@@ -1188,7 +1429,7 @@ else{
                    
                 }
                }else if(isset($_POST["bekleyenBasvurular"])){
-                $sorgu4=$db->query("select * from basvurular where onay='Beklemede'");
+                $sorgu4=$db->query("select * from basvurular where onay='Beklemede' order by basvuru_tarihi desc");
              
                 if($sorgu4->num_rows>0){
                     while($row=$sorgu4->fetch_assoc()){
@@ -1240,7 +1481,8 @@ else{
                      if($onay=="Onaylandı"){
                          echo "
                          <tr style='background-color:#7CFC00';>
-                             
+                         <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+
                              <td>$adSoyad</td>
                              <td>$adres</td>
                              <td>$gsm</td>
@@ -1282,7 +1524,7 @@ else{
      <td>$stajBaslama</td>
      <td>$stajBitis</td>
      <td>$onay</td>
-     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'></form></td>
+     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
      
                          </tr>
                        
@@ -1291,7 +1533,8 @@ else{
                      }else if($onay=="Reddedildi"){
                          echo "
                          <tr style='background-color:red';>
-                             
+                         <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+
                              <td>$adSoyad</td>
                              <td>$adres</td>
                              <td>$gsm</td>
@@ -1333,16 +1576,69 @@ else{
      <td>$stajBaslama</td>
      <td>$stajBitis</td>
      <td>$onay</td>
-     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'></form></td>
+     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
      
                          </tr>
                        
                              
                    ";
-                     }else{
+                     }else if($onay=="Beklemede"){
+                        echo "
+                        <tr style='background-color:white';>
+                        <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+
+                            <td>$adSoyad</td>
+                            <td>$adres</td>
+                            <td>$gsm</td>
+                            <td>$dogum</td>
+                            <td>$dogumYeri</td>
+                            <td>$ehliyet</td>
+                            <td>$uyrug</td>
+                            <td>$tckimlik</td>
+                            <td></td>
+                            <td>$okul</td>
+                            <td>$bolum</td>
+                            <td>$baslama1 - $bitis1</td>
+                            <td>$ort1</td>
+                            <td>$okul2</td>
+                            <td>$bolum2</td>
+                            <td>$baslama2 - $bitis2</td>
+                            <td>$ort2</td>
+                            <td>$okul3</td>
+                            <td>$bolum3</td>
+                            <td>$baslama3 - $bitis3</td>
+                            <td>$ort3</td>
+                            <td>$okul4</td>
+                            <td>$bolum4</td>
+                            <td>$baslama4 - $bitis4</td>
+                            <td>$ort4</td>
+                            <td>$dil</td>
+                            <td>$word1</td>
+    <td>$excel1</td>
+    <td>$powerpoint1</td>
+    <td>$access1</td>
+    <td>$digerYetenekler</td>
+    <td>$digerAdSoyad</td>
+    <td>$referansFirma</td>
+    <td>$pozisyon1</td>
+    <td>$basvurulanBolum1</td>
+    <td>$isTecrubeleri1</td>
+    <td>$ilham1</td>
+    <td>$takim1</td>
+    <td>$stajBaslama</td>
+    <td>$stajBitis</td>
+    <td>$onay</td>
+    <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
+    
+                        </tr>
+                      
+                            
+                  ";
+                    }else{
                          echo "
                          <tr>
-                             
+                         <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+
                              <td>$adSoyad</td>
                              <td>$adres</td>
                              <td>$gsm</td>
@@ -1384,7 +1680,7 @@ else{
      <td>$stajBaslama</td>
      <td>$stajBitis</td>
      <td>$onay</td>
-     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'></form></td>
+     <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
      
                          </tr>
                        
@@ -1455,7 +1751,8 @@ else{
                     if($onay=="Onaylandı"){
                         echo "
                         <tr style='background-color:#7CFC00';>
-                            
+                        <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+
                             <td>$adSoyad</td>
                             <td>$adres</td>
                             <td>$gsm</td>
@@ -1497,7 +1794,7 @@ else{
     <td>$stajBaslama</td>
     <td>$stajBitis</td>
     <td>$onay</td>
-    <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'></form></td>
+    <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
     
                         </tr>
                       
@@ -1506,7 +1803,8 @@ else{
                     }else if($onay=="Reddedildi"){
                         echo "
                         <tr style='background-color:red';>
-                            
+                        <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+
                             <td>$adSoyad</td>
                             <td>$adres</td>
                             <td>$gsm</td>
@@ -1548,7 +1846,59 @@ else{
     <td>$stajBaslama</td>
     <td>$stajBitis</td>
     <td>$onay</td>
-    <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'></form></td>
+    <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
+    
+                        </tr>
+                      
+                            
+                  ";
+                    }else if($onay=="Beklemede"){
+                        echo "
+                        <tr style='background-color:white';>
+                        <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+
+                            <td>$adSoyad</td>
+                            <td>$adres</td>
+                            <td>$gsm</td>
+                            <td>$dogum</td>
+                            <td>$dogumYeri</td>
+                            <td>$ehliyet</td>
+                            <td>$uyrug</td>
+                            <td>$tckimlik</td>
+                            <td></td>
+                            <td>$okul</td>
+                            <td>$bolum</td>
+                            <td>$baslama1 - $bitis1</td>
+                            <td>$ort1</td>
+                            <td>$okul2</td>
+                            <td>$bolum2</td>
+                            <td>$baslama2 - $bitis2</td>
+                            <td>$ort2</td>
+                            <td>$okul3</td>
+                            <td>$bolum3</td>
+                            <td>$baslama3 - $bitis3</td>
+                            <td>$ort3</td>
+                            <td>$okul4</td>
+                            <td>$bolum4</td>
+                            <td>$baslama4 - $bitis4</td>
+                            <td>$ort4</td>
+                            <td>$dil</td>
+                            <td>$word1</td>
+    <td>$excel1</td>
+    <td>$powerpoint1</td>
+    <td>$access1</td>
+    <td>$digerYetenekler</td>
+    <td>$digerAdSoyad</td>
+    <td>$referansFirma</td>
+    <td>$pozisyon1</td>
+    <td>$basvurulanBolum1</td>
+    <td>$isTecrubeleri1</td>
+    <td>$ilham1</td>
+    <td>$takim1</td>
+    <td>$stajBaslama</td>
+    <td>$stajBitis</td>
+    <td>$onay</td>
+    <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
     
                         </tr>
                       
@@ -1557,7 +1907,8 @@ else{
                     }else{
                         echo "
                         <tr>
-                            
+                        <td><form action='https://applications.reeder-op.com/profile.php' method='get' target='_blank'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='profilBtn' value='Profili göster' style='margin-right:10px;background-color:blue;border:none;color:white;'></form></td>
+
                             <td>$adSoyad</td>
                             <td>$adres</td>
                             <td>$gsm</td>
@@ -1599,7 +1950,7 @@ else{
     <td>$stajBaslama</td>
     <td>$stajBitis</td>
     <td>$onay</td>
-    <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'></form></td>
+    <td><form action='https://applications.reeder-op.com/data.php' method='post'><input type='hidden' name='bul' value='$adSoyad'><input type='submit' name='onayBtn' value='Onayla' style='margin-right:10px;background-color:green;border:none;color:white;'><input type='submit' name='reddetBtn' value='Reddet' style='margin-right:10px;background-color:red;border:none;color:white;'><input type='submit' name='bekleBtn' value='Beklemeye Al' style='margin-right:10px;background-color:gray;border:none;color:white;'></form></td>
     
                         </tr>
                       
@@ -1656,6 +2007,24 @@ else{
        <script src="js/scripts.js"></script>
        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
        <script src="js/datatables-simple-demo.js"></script>
+       <script>
+                function topScroll(){
+                    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+
+                }
+                window.addEventListener('scroll', function() {
+      var scrollButton = document.querySelector('.scroll-to-top');
+      if (window.scrollY > 200) {
+        scrollButton.style.display = 'block';
+      } else {
+        scrollButton.style.display = 'none';
+      }
+    });
+
+       </script>
        <?php
        if(isset($_POST["ex"])){
         session_destroy();
@@ -1663,7 +2032,7 @@ else{
        }
       
    
-       ?>
+       ?><div class="sondiv"><img src="/img/reeder.png" class="scroll-to-top"  onclick="topScroll()" style="width: 10%;position:fixed;right:0;bottom:0;background-color:#212529;border-radius:20px;box-shadow:1px 1px 10px green;"></div>
    </body>
 </html>
 
